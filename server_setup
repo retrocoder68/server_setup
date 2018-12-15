@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Prerequisite: Check linux OS = centos 7 
+if [ -f'/etc/centos-release' ]; then
+    OSVER=`sed 's/.*release \([0-9]*\).*/\1/' /etc/centos-release `
+    echo "Found CENTOS $OSVER"
+else
+   echo "Error: can only be run on CENTOS 7"
+   exit -1
+fi
+
+# 1. Create admin user
+echo "Creating admin user"
+./create_admin test01
+
+# 2. Disable root login
+echo "Disabling root login"
+./disable_root
+
+# 3. Disable root login with ssh
+echo "Disabling root login from SSH"
+./disable_ssh_root
+
+# 4. Install fail2ban
+echo "Installing fail2ban"
+./install_fail2ban
+
+# 5. Configure fail2ban
+echo "Configuring fail2ban"
+./config_fail2ban
+
+# 6. Configure (disable) firewalld
+echo "Configure firewalld"
+./disable_firewalld
+
+# 7. Configure (disable) selinux
+echo "Configure selinux"
+./disable_selinux
+
+# 8. Restart SSHD
+echo "In the next step SSHD will be restarted"
+echo "If you logged in via SSH you will be disconnected and should login again using the new admin account."
+echo "Attention: Don't forget to write down the username and password."
+read -n 1 -s -r -p "Press any key to continue..."
+echo ""
+
+echo "Restarting SSHD..."
+./restart_sshd

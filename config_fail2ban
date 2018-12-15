@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+if [ `id -u` != 0 ]; then
+  echo "Error: config_fail2ban must be executed by root"
+  exit -1
+fi
+
+echo "[sshd]"                         >> /etc/fail2ban/jail.local
+echo "enabled = true"                 >> /etc/fail2ban/jail.local
+echo "banaction = iptables-multiport" >> /etc/fail2ban/jail.local
+
+systemctl restart fail2ban

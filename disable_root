@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [ `id -u` != 0 ]; then
+  echo "Error: disble_root script must be executed by root"
+  exit -1
+fi
+
+usermod -s /sbin/nologin root

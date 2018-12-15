@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+if [ `id -u` != 0 ]; then
+  echo "Error: disable_ssh_root script must be executed by root"
+  exit -1
+fi
+
+F="/etc/ssh/sshd_config"
+if [ -f "$F" ]; then 
+  echo "Disabling root login via SSH"
+  sed -i.bak 's/^#\?\(PermitRootLogin .\+\)/#\1\nPermitRootLogin no/' $F
+else
+  echo "Warning: Cannot find sshd config file: $F"
+fi

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+if [ `id -u` != 0 ]; then
+  echo "Error: this script must be executed by root"
+  exit -1
+fi
+
+if [ -f"/etc/selinux/config" ]; then 
+  echo "Disabling selinux"
+  sed -i.bak 's/\(^SELINUX=.\+\)/#\1\nSELINUX=disabled/' /etc/selinux/config
+else
+  echo "Warning: Cannot find selinux config file" 
+fi

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+if [ `id -u` != 0 ]; then
+  echo "Error: disable_firewalld must be executed by root"
+  exit -1
+fi
+
+systemctl disable firewalld
+systemctl stop firewalld

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+if [ `id -u` != 0 ]; then
+  echo "Error: restart_sshd must be executed by root"
+  exit -1
+fi
+
+systemctl enable sshd
+systemctl restart sshd
