@@ -4,8 +4,18 @@ if [ `id -u` != 0 ]; then
   exit -1
 fi
 
-echo "[sshd]"                         >> /etc/fail2ban/jail.local
-echo "enabled = true"                 >> /etc/fail2ban/jail.local
-echo "banaction = iptables-multiport" >> /etc/fail2ban/jail.local
+cat <<EOL >> /etc/fail2ban/jail.local
+[DEFAULT]
+bantime = 3600
+maxretry = 3 
+
+[sshd]
+enabled = true
+banaction = iptables-multiport
+
+[postfix]
+enabled = true
+
+EOL
 
 systemctl restart fail2ban
